@@ -1,4 +1,4 @@
-# spark
+# A Flutter News Aggregator App (Spark⚡)
 
 A new Flutter project.
 
