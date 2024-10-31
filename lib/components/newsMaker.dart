@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_config/flutter_config.dart';
 import 'package:spark/constants/userServices.dart';
+import 'package:spark/pages/details.dart';
 // import 'package:spark/models/categorymodel.dart';
 
 class NewsMaker extends StatefulWidget {
@@ -36,18 +37,18 @@ class _NewsMakerState extends State<NewsMaker> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: FutureBuilder<List<newsFactory>>(
-          future: futureNews,
-          builder: ((context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    newsFactory news = snapshot.data?[index];
-                    return Container(
+    return FutureBuilder<List<newsFactory>>(
+        future: futureNews,
+        builder: ((context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  newsFactory news = snapshot.data?[index];
+                  return InkWell(
+                    child: Container(
                         // height: 500,
                         margin: EdgeInsets.only(
                             top: 10, bottom: 5, left: 12, right: 12),
@@ -88,7 +89,8 @@ class _NewsMakerState extends State<NewsMaker> {
                                   errorBuilder: (BuildContext context,
                                       Object exception,
                                       StackTrace? stackTrace) {
-                                    return Text('Failed to load image');
+                                    return Center(
+                                        child: Text('Failed to load image'));
                                   },
                                   fit: BoxFit.cover,
                                 ),
@@ -101,7 +103,7 @@ class _NewsMakerState extends State<NewsMaker> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Category : ${news.category}",
+                                    "Category : ${news.category?.capitalize()}",
                                     style: TextStyle(
                                         fontFamily: "Oswald",
                                         fontWeight: FontWeight.bold,
@@ -157,19 +159,34 @@ class _NewsMakerState extends State<NewsMaker> {
                               ),
                             ),
                           ],
-                        ));
-                  });
-            } else if (snapshot.hasError) {
-              return Text('Something Went Wrong!!');
-            }
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            );
-          })),
-    );
+                        )),
+                    onTap: () => openPage(context, news),
+                  );
+                });
+          } else if (snapshot.hasError) {
+            return Text('Something Went Wrong!!');
+          }
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                height: 500,
+                child: Center(child: CircularProgressIndicator()),
+              ),
+            ],
+          );
+        }));
+  }
+
+  openPage(context, news) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => Details(news: news)));
+  }
+}
+
+extension on String? {
+  capitalize() {
+    return "${this?[0].toUpperCase()}${this?.substring(1)}";
   }
 }

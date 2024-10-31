@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:spark/components/footer.dart';
 import 'package:spark/components/navbar.dart';
 import 'package:spark/components/newsMaker.dart';
 import 'package:spark/constants/userServices.dart';
 import 'package:spark/models/categorymodel.dart';
 import 'package:spark/constants/data.dart';
+import 'package:spark/pages/categoryNews.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,7 +105,8 @@ class _HomeState extends State<Home> {
                           itemBuilder: (context, index) {
                             return CategoriesWidget(
                                 image: categories[index].image,
-                                categoryName: categories[index].categoryName);
+                                categoryName: categories[index].categoryName,
+                                topic:categories[index].topic);
                           })),
                 ],
               ),
@@ -120,10 +123,14 @@ class _HomeState extends State<Home> {
               )),
             ),
             NewsMaker(
-                countries: "IN,US,UK,RU",
-                lang: "en",
-                page_size: "50",
-                )
+              countries: "IN,US,UK,RU",
+              lang: "en",
+              page_size: "50",
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Footer()
           ],
         ),
       ),
@@ -132,8 +139,8 @@ class _HomeState extends State<Home> {
 }
 
 class CategoriesWidget extends StatelessWidget {
-  final image, categoryName;
-  const CategoriesWidget({super.key, this.image, this.categoryName});
+  final image, categoryName,topic;
+  const CategoriesWidget({super.key, this.image, this.categoryName, this.topic});
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +185,11 @@ class CategoriesWidget extends StatelessWidget {
           ],
         ),
       ),
-      onTap: () {
-        print("Pressed ${categoryName}");
-      },
+      onTap: () => openPage(context, topic),
     );
+  }
+  openPage(context, topic) {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CategoryNews(topic:topic)));
   }
 }

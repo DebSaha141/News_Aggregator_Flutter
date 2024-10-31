@@ -65,7 +65,7 @@ class UserServices {
     await FlutterConfig.loadEnvVariables();
     final response = await http.get(
       Uri.parse(
-          '${newsCathchers}?countries=${countries}&ranked_only=true&lang=${lang}${topic!=null?"&topic=$topic":""}&when=24h&page_size=${page_size}&page=1'),
+          '${newsCathchers}?countries=${countries}&ranked_only=true&lang=${lang}${topic != null ? "&topic=$topic" : ""}&when=24h&page_size=${page_size}&page=1'),
       headers: {
         'x-api-key': "${FlutterConfig.get('API_KEY')}",
       },
