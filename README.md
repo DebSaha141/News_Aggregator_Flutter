@@ -62,7 +62,7 @@ flutter run
 Spark embraces a minimalist design language with:
 - Elegant typography
 - Smooth transitions
-- Dark and light mode support
+- Dark mode support
 - Accessibility-first approach
 
 
@@ -77,7 +77,10 @@ Spark embraces a minimalist design language with:
 - Flutter
 - Provider for state management
 - http for HTTP requests
-- Flutter Dotenv for environment configuration
+- Flutter .env for environment configuration
+- Flutter Config Package
+- URL Launcher For external browser view
+- Fluttertoast for error display
 
 
 ## 🤝 Contributing
