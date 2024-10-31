@@ -24,11 +24,12 @@ AppBar Navbar(context) {
     centerTitle: true,
     toolbarHeight: 65,
     toolbarOpacity: 0.8,
-    elevation: 5,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
-    ),
-    backgroundColor: Color(0xFF242526),
+    // elevation: 5,
+    // shape: const RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.only(
+    //       bottomRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
+    // ),
+    // backgroundColor: Color(0xFF282828),
+    backgroundColor: Color(0xFF212028),
   );
 }
