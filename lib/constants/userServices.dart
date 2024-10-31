@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -32,10 +34,10 @@ class newsFactory {
         title: json['title'],
         publisher: json['rights'],
         published_date: json['published_date'],
-        category:json['topic'],
+        category: json['topic'],
         link: json['link'],
         para: json['excerpt'],
-        summary: json['summary'],
+        summary: json['summary'].replaceAll("\n", " "),
         image: json['media']);
   }
 }
@@ -50,11 +52,13 @@ class UserServices {
     //   'page_size': 10,
     //   'page': 1
     // });
+    WidgetsFlutterBinding.ensureInitialized();
+    await FlutterConfig.loadEnvVariables();
     final response = await http.get(
       Uri.parse(
-          '${newsCathchers}?countries=IN&ranked_only=true&lang=en&when=24h&page_size=10&page=1'),
+          '${newsCathchers}?countries=IN&ranked_only=true&lang=en&when=24h&page_size=50&page=1'),
       headers: {
-        'x-api-key': 'u53i7SKNexRlGumsaojriwGiG0Ko-ysUGhs4qGaevUU',
+        'x-api-key': "${FlutterConfig.get('API_KEY')}",
       },
     );
     if (response.statusCode == 200) {

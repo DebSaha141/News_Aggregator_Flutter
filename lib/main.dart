@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_config/flutter_config.dart';
 import 'package:spark/components/navbar.dart';
 import 'package:spark/constants/userServices.dart';
 import 'package:spark/models/categorymodel.dart';
 import 'package:spark/constants/data.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FlutterConfig.loadEnvVariables();
   runApp(MyApp());
 }
 
@@ -115,118 +118,145 @@ class _HomeState extends State<Home> {
                     color: Colors.grey),
               )),
             ),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 20,
-                itemBuilder: (context, index) {
-                  return Container(
-                      height: 500,
-                      margin: EdgeInsets.only(
-                          top: 10, bottom: 5, left: 15, right: 15),
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Color(0xFF45454c), width: 1),
-                          borderRadius: BorderRadius.circular(20),
-                          color: Color(0xFF202126)),
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)),
-                            child: Container(
-                              height: 200,
-                              // color: Colors.amber,
-                              width: double.infinity,
-                              child: Image(
-                                image: NetworkImage(
-                                    "https://images.unsplash.com/photo-1630568001199-984008a7d6b0?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                top: 5.0, left: 10, right: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Category : News",
-                                  style: TextStyle(
-                                      fontFamily: "Oswald",
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey),
-                                ),
-                                SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                    "Delhi hosts world ranking event of Pickleball, the fastest-growing sport",
-                                    style: TextStyle(
-                                        fontFamily: "freeman",
-                                        fontSize: 24,
-                                        height: 1.2)),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "A major international event of pickleball, one of the fastest-growing games in the world, started in New Delhi on Thursday.The Pickleball World Rankings (PWR), dubbed the PWR DUPR India Masters, features over 700 players from various countries and will be held at the RK Khanna Tennis Stadium between October 24 and 27.International players, including Dustin Boyer and Phuc Huynh from the United States, Mitch Hargreaves and Emilia Schmidt from Australia, Roos Van Reek (Netherlands) and Pei Chuan Kao (Chinese Taipei) are participating.Leading Indian pickleball players Armaan Bhatia and Aditya Ruhela will also compete in the event, which offers a prize pool of USD 50,000.A paddle bat and playing ball. File photo: AFP\n\"The PWR DUPR India Masters is a landmark event that highlights the emergence of pickleball as a beloved sport in India for all ages,\" said Pranav Kohli, CEO of PWR. \"This event not only gives professionals a platform to compete and earn ranking points but also plays a key role in identifying and nurturing domestic talent, fostering a new generation of players and fans,\" he said.\nThe PWR is a unified global ranking system that enables players to earn points by participating in the PWR World Tour to improve their rankings and become eligible for the PWR World Series.\nPeople play pickleball on the courts of CityPickle at Central Park's Wollman Rink on August 27, 2024 in New York City. File photo: AFP/ Spencer Platt\nWhat is pickleball?\nPickleball is similar to tennis, badminton, and table tennis. It is played on a court smaller than that used for tennis. It is played in both doubles and singles formats, and the players use short-handled paddles and a perforated hollow plastic ball.\nThe scoring system is somewhat similar to table tennis, where each player or team that gets to 11 points with a two-point difference wins a set. The serves are made underhand.\nPickleball can be compared to Padel as both games are played worldwide, both at the amateur and professional levels. Read Onmanorama report on the emergence of padel in Kerala.",
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 6,
-                                  softWrap: true,
-                                  style: TextStyle(fontFamily: "Rubik"),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(top: 5, bottom: 5),
-                                  child: Divider(
-                                    height: 1,
-                                    thickness: 1,
-                                    color: Color(0xFF45454c),
-                                  ),
-                                ),
-                                Text(
-                                  "Published On : 2024-10-24 20:19:16",
-                                  style: TextStyle(
-                                      fontFamily: "Oswald",
-                                      color: Colors.grey,
-                                      fontSize: 13),
-                                ),
-                                Text(
-                                  "From : sumanasa.com",
-                                  style: TextStyle(
-                                    fontFamily: "Oswald",
-                                    color: Colors.grey,
-                                    fontSize: 13,
-                                    // fontStyle: FontStyle.italic
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ));
-                })
-            // Center(
-            //   child: FutureBuilder<List<newsFactory>>(
-            //       future: futureNews,
-            //       builder: ((context, snapshot) {
-            //         if (snapshot.hasData) {
-            //           return const Text('I have Data');
-            //         } else if (snapshot.hasError) {
-            //           return Text('Error:${snapshot.error}');
-            //         }
-            //         return Column(
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           children: [
-            //             CircularProgressIndicator(),
-            //           ],
-            //         );
-            //       })),
-            // )
+            Center(
+              child: FutureBuilder<List<newsFactory>>(
+                  future: futureNews,
+                  builder: ((context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            newsFactory news = snapshot.data?[index];
+                            return Container(
+                                // height: 500,
+                                margin: EdgeInsets.only(
+                                    top: 10, bottom: 5, left: 12, right: 12),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        color: Color(0xFF45454c), width: 1),
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Color(0xFF202126)),
+                                child: Column(
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20)),
+                                      child: Container(
+                                        height: 200,
+                                        // color: Colors.amber,
+                                        width: double.infinity,
+                                        child: Image.network(
+                                          "${news.image}",
+                                          loadingBuilder: (BuildContext context,
+                                              Widget child,
+                                              ImageChunkEvent?
+                                                  loadingProgress) {
+                                            if (loadingProgress == null)
+                                              return child;
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                value: loadingProgress
+                                                            .expectedTotalBytes !=
+                                                        null
+                                                    ? loadingProgress
+                                                            .cumulativeBytesLoaded /
+                                                        loadingProgress
+                                                            .expectedTotalBytes!
+                                                    : null,
+                                              ),
+                                            );
+                                          },
+                                          errorBuilder: (BuildContext context,
+                                              Object exception,
+                                              StackTrace? stackTrace) {
+                                            return Text('Failed to load image');
+                                          },
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 5.0, left: 10, right: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Category : ${news.category}",
+                                            style: TextStyle(
+                                                fontFamily: "Oswald",
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey),
+                                          ),
+                                          SizedBox(
+                                            height: 3,
+                                          ),
+                                          Text("${news.title}",
+                                              style: TextStyle(
+                                                  fontFamily: "freeman",
+                                                  fontSize: 24,
+                                                  height: 1.2)),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "${news.summary}",
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 6,
+                                            softWrap: true,
+                                            style:
+                                                TextStyle(fontFamily: "Rubik"),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 5, bottom: 5),
+                                            child: Divider(
+                                              height: 1,
+                                              thickness: 1,
+                                              color: Color(0xFF45454c),
+                                            ),
+                                          ),
+                                          Text(
+                                            "Published On : ${news.published_date}",
+                                            style: TextStyle(
+                                                fontFamily: "Oswald",
+                                                color: Colors.grey,
+                                                fontSize: 13),
+                                          ),
+                                          Text(
+                                            "From : ${news.publisher}",
+                                            style: TextStyle(
+                                              fontFamily: "Oswald",
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                              // fontStyle: FontStyle.italic
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ));
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text('Something Went Wrong!!');
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                      ],
+                    );
+                  })),
+            )
           ],
         ),
       ),
