@@ -95,11 +95,6 @@ Spark embraces a minimalist design language with:
 Distributed under the MIT License. See `LICENSE` for more information.
 
 
-## 📞 Contact
-Debmalya Saha
-Project Link: [https://github.com/DebSaha141/News_Aggregator_Flutter.git](https://github.com/yourusername/spark-news)
-
-
 ---
 
 
