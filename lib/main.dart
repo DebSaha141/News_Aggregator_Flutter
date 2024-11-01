@@ -106,7 +106,7 @@ class _HomeState extends State<Home> {
                             return CategoriesWidget(
                                 image: categories[index].image,
                                 categoryName: categories[index].categoryName,
-                                topic:categories[index].topic);
+                                topic: categories[index].topic);
                           })),
                 ],
               ),
@@ -139,8 +139,9 @@ class _HomeState extends State<Home> {
 }
 
 class CategoriesWidget extends StatelessWidget {
-  final image, categoryName,topic;
-  const CategoriesWidget({super.key, this.image, this.categoryName, this.topic});
+  final image, categoryName, topic;
+  const CategoriesWidget(
+      {super.key, this.image, this.categoryName, this.topic});
 
   @override
   Widget build(BuildContext context) {
@@ -188,8 +189,9 @@ class CategoriesWidget extends StatelessWidget {
       onTap: () => openPage(context, topic),
     );
   }
+
   openPage(context, topic) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => CategoryNews(topic:topic)));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => CategoryNews(topic: topic)));
   }
 }

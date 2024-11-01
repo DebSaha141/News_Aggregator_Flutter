@@ -24,7 +24,7 @@
     </intent>
     </queries>
     <application
-        android:label="spark"
+        android:label="Spark"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true">

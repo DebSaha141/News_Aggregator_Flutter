@@ -171,7 +171,7 @@ class _NewsMakerState extends State<NewsMaker> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                height: 500,
+                height: 600,
                 child: Center(child: CircularProgressIndicator()),
               ),
             ],

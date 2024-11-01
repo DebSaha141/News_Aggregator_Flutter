@@ -25,14 +25,14 @@ class _CategoryNewsState extends State<CategoryNews> {
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 3),
-              child: Center(
-                  child: Text(
-                "${widget.topic?.capitalize()} News",
+              child: Text(
+                "Category: ${widget.topic?.capitalize()}",
                 style: TextStyle(
-                    fontFamily: "Inter",
+                    fontFamily: "Oswald",
                     fontWeight: FontWeight.bold,
-                    color: Colors.grey),
-              )),
+                    color: Colors.grey,
+                    fontSize: 16),
+              ),
             ),
             NewsMaker(
               countries: "IN,US,UK,RU",
