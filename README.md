@@ -81,6 +81,8 @@ Spark embraces a minimalist design language with:
 - Flutter Config Package
 - URL Launcher For external browser view
 - Fluttertoast for error display
+- Flutter Carousel For Image Carousel
+- Flutter Native Splash for Splash Screen
 
 
 ## 🤝 Contributing
