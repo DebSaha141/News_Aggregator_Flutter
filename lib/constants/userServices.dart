@@ -47,11 +47,13 @@ class UserServices {
   final String? topic;
   final String? lang;
   final String? page_size;
+  final String? time;
   const UserServices(
       {required this.countries,
       this.topic,
       required this.lang,
-      required this.page_size});
+      required this.page_size,
+      required this.time});
   Future<List<newsFactory>> getNews() async {
     // final body = jsonEncode({
     //   'countries': 'IN',
@@ -65,7 +67,7 @@ class UserServices {
     await FlutterConfig.loadEnvVariables();
     final response = await http.get(
       Uri.parse(
-          '${newsCathchers}?countries=${countries}&ranked_only=true&lang=${lang}${topic != null ? "&topic=$topic" : ""}&when=24h&page_size=${page_size}&page=1'),
+          '${newsCathchers}?countries=${countries}&ranked_only=true&lang=${lang}${topic != null ? "&topic=$topic" : ""}&when=${time}&page_size=${page_size}&page=1'),
       headers: {
         'x-api-key': "${FlutterConfig.get('API_KEY')}",
       },

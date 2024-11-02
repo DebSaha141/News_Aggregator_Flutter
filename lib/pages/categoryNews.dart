@@ -35,10 +35,11 @@ class _CategoryNewsState extends State<CategoryNews> {
               ),
             ),
             NewsMaker(
-              countries: "IN,US,UK,RU",
+              countries: "IN,US,UK,RU,CA,MX",
               lang: "en",
               page_size: "50",
               topic: widget.topic,
+              time: "24h"
             ),
             SizedBox(
               height: 20,

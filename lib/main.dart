@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:spark/components/appdrawer.dart';
+import 'package:spark/components/carouselSlider.dart';
 import 'package:spark/components/footer.dart';
 import 'package:spark/components/navbar.dart';
 import 'package:spark/components/newsMaker.dart';
@@ -63,9 +65,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 5, 5, 5),
-      // backgroundColor: Color(0xFF18171c),
+      // backgroundColor: Color.fromARGB(255, 5, 5, 5),
+      backgroundColor: Color(0xFF18171c),
       appBar: Navbar(context),
+      drawer: AppDrawer(context),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -112,20 +115,44 @@ class _HomeState extends State<Home> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 10, bottom: 3),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Center(
                   child: Text(
-                "Lastest News",
+                "HIGHLIGHTS",
                 style: TextStyle(
                     fontFamily: "Inter",
                     fontWeight: FontWeight.bold,
                     color: Colors.grey),
               )),
             ),
-            NewsMaker(
-              countries: "IN,US,UK,RU",
-              lang: "en",
-              page_size: "50",
+            Carousel(),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 3),
+              child: Center(
+                  child: Text(
+                "LATEST NEWS",
+                style: TextStyle(
+                    fontFamily: "Inter",
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey),
+              )),
+            ),
+            FutureBuilder(
+              future: Future.delayed(Duration(seconds: 2)),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                      height: 300,
+                      child: Center(child: CircularProgressIndicator()));
+                } else {
+                  return NewsMaker(
+                    countries: "IN,US,UK,RU,CA,MX",
+                    lang: "en",
+                    page_size: "50",
+                    time: "24h",
+                  );
+                }
+              },
             ),
             SizedBox(
               height: 20,

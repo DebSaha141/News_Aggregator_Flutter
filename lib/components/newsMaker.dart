@@ -9,12 +9,14 @@ class NewsMaker extends StatefulWidget {
   final String? topic;
   final String? lang;
   final String? page_size;
+  final String? time;
   const NewsMaker({
     Key? key,
     required this.countries,
     this.topic,
     required this.lang,
     required this.page_size,
+    required this.time,
   }) : super(key: key);
 
   @override
@@ -31,7 +33,8 @@ class _NewsMakerState extends State<NewsMaker> {
             countries: widget.countries,
             topic: widget.topic,
             lang: widget.lang,
-            page_size: widget.page_size)
+            page_size: widget.page_size,
+            time: widget.time)
         .getNews();
   }
 
