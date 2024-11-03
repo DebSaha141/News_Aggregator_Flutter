@@ -40,6 +40,12 @@ List<CategoryModel> getCategories() {
   category.add(categoryModel);
   categoryModel = new CategoryModel();
 
+  categoryModel.categoryName = "Economics";
+  categoryModel.topic = "economics";
+  categoryModel.image = "assets/images/Economics.png";
+  category.add(categoryModel);
+  categoryModel = new CategoryModel();
+
   categoryModel.categoryName = "Business";
   categoryModel.topic = "business";
   categoryModel.image = "assets/images/business.jpg";

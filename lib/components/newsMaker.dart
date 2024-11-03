@@ -10,6 +10,8 @@ class NewsMaker extends StatefulWidget {
   final String? lang;
   final String? page_size;
   final String? time;
+  final String? query;
+  final String? endpoint;
   const NewsMaker({
     Key? key,
     required this.countries,
@@ -17,6 +19,8 @@ class NewsMaker extends StatefulWidget {
     required this.lang,
     required this.page_size,
     required this.time,
+    this.query,
+    this.endpoint,
   }) : super(key: key);
 
   @override
@@ -34,7 +38,9 @@ class _NewsMakerState extends State<NewsMaker> {
             topic: widget.topic,
             lang: widget.lang,
             page_size: widget.page_size,
-            time: widget.time)
+            time: widget.time,
+            query: widget.query,
+            endpoint: widget.endpoint)
         .getNews();
   }
 
@@ -167,7 +173,8 @@ class _NewsMakerState extends State<NewsMaker> {
                   );
                 });
           } else if (snapshot.hasError) {
-            return Text('Something Went Wrong!!');
+            return Container(
+                height: 300, child: Text('Something Went Wrong!!'));
           }
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,

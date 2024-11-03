@@ -218,7 +218,12 @@ class CategoriesWidget extends StatelessWidget {
   }
 
   openPage(context, topic) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => CategoryNews(topic: topic)));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CategoryNews(
+                  topic: topic,
+                  time: "24h",
+                )));
   }
 }

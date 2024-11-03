@@ -6,7 +6,11 @@ import 'package:spark/constants/userServices.dart';
 
 class CategoryNews extends StatefulWidget {
   final String? topic;
-  const CategoryNews({Key? key, required this.topic}) : super(key: key);
+  final String? query;
+  final String? endpoint;
+  final String? time;
+  const CategoryNews({Key? key, this.topic, this.query, this.endpoint,this.time})
+      : super(key: key);
 
   @override
   State<CategoryNews> createState() => _CategoryNewsState();
@@ -17,8 +21,8 @@ class _CategoryNewsState extends State<CategoryNews> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 5, 5, 5),
-      // backgroundColor: Color(0xFF18171c),
+      // backgroundColor: Color.fromARGB(255, 5, 5, 5),
+      backgroundColor: Color(0xFF18171c),
       appBar: Navbar(context),
       body: SingleChildScrollView(
         child: Column(
@@ -26,7 +30,7 @@ class _CategoryNewsState extends State<CategoryNews> {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 3),
               child: Text(
-                "Category: ${widget.topic?.capitalize()}",
+                "${widget.query != null ? "Search Results for ${widget.query?.capitalize()}" : "Category: ${widget.topic?.capitalize()}"}",
                 style: TextStyle(
                     fontFamily: "Oswald",
                     fontWeight: FontWeight.bold,
@@ -39,7 +43,9 @@ class _CategoryNewsState extends State<CategoryNews> {
               lang: "en",
               page_size: "50",
               topic: widget.topic,
-              time: "24h"
+              time: widget.time,
+              query: widget.query,
+              endpoint: widget.endpoint,
             ),
             SizedBox(
               height: 20,

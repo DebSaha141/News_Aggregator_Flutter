@@ -3,10 +3,7 @@ import 'package:flutter_config/flutter_config.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// var gNewsApi =
-//     'https://gnews.io/api/v4/top-headlines?category=weather&country=in&page=2&lang=en&apikey=0190510406fef69da355099ddbc50a84';
-
-var newsCathchers = "https://api.newscatcherapi.com/v2/latest_headlines";
+var newsCathchers = "https://api.newscatcherapi.com/v2/";
 
 class newsFactory {
   final String? title;
@@ -17,17 +14,18 @@ class newsFactory {
   final String? summary;
   final String? image;
   final String? category;
+  final num? score;
 
-  const newsFactory({
-    this.publisher,
-    this.title,
-    this.published_date,
-    this.link,
-    this.para,
-    this.summary,
-    this.image,
-    this.category,
-  });
+  const newsFactory(
+      {this.publisher,
+      this.title,
+      this.published_date,
+      this.link,
+      this.para,
+      this.summary,
+      this.image,
+      this.category,
+      this.score});
 
   factory newsFactory.fromJson(Map<String, dynamic> json) {
     return newsFactory(
@@ -38,7 +36,8 @@ class newsFactory {
         link: json['link'],
         para: json['excerpt'],
         summary: json['summary'].replaceAll("\n", " "),
-        image: json['media']);
+        image: json['media'],
+        score: json["_score"]);
   }
 }
 
@@ -48,12 +47,18 @@ class UserServices {
   final String? lang;
   final String? page_size;
   final String? time;
+  final String? endpoint;
+  final String? query;
+
   const UserServices(
       {required this.countries,
       this.topic,
       required this.lang,
       required this.page_size,
-      required this.time});
+      this.time,
+      this.endpoint,
+      this.query});
+
   Future<List<newsFactory>> getNews() async {
     // final body = jsonEncode({
     //   'countries': 'IN',
@@ -67,7 +72,7 @@ class UserServices {
     await FlutterConfig.loadEnvVariables();
     final response = await http.get(
       Uri.parse(
-          '${newsCathchers}?countries=${countries}&ranked_only=true&lang=${lang}${topic != null ? "&topic=$topic" : ""}&when=${time}&page_size=${page_size}&page=1'),
+          '${newsCathchers}${endpoint != null ? "$endpoint" : "latest_headlines"}?${query != null ? "q=$query&" : ""}countries=${countries}&ranked_only=true&lang=${lang}${topic != null ? "&topic=$topic" : ""}${time != null ? "&when=$time" : ""}&page_size=${page_size}&page=1'),
       headers: {
         'x-api-key': "${FlutterConfig.get('API_KEY')}",
       },
@@ -75,14 +80,18 @@ class UserServices {
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
 
-      final List<newsFactory> list = [];
-
+      List<newsFactory> list = [];
       for (var i = 0; i < data['articles'].length; i++) {
         final entry = data['articles'][i];
         list.add(newsFactory.fromJson(entry));
       }
+      if (list[0].score != null) {
+        list.sort((a, b) => (a.score ?? 0).compareTo(b.score ?? 0));
+        list = list.reversed.toList();
+      }
       return list;
     } else {
+      print(jsonDecode(response.body));
       throw Exception("HTTP Error");
     }
   }

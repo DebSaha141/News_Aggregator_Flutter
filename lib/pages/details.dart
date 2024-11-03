@@ -12,6 +12,7 @@ class Details extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF18171c),
       appBar: Navbar(context),
       body: SingleChildScrollView(
         child: Column(
