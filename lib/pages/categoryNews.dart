@@ -70,7 +70,6 @@ class _CategoryNewsState extends State<CategoryNews> {
                   } else if (snapshot.data != null ||
                       snapshot.data != "" ||
                       lang != "") {
-                    print("lang3 $lang");
                     return NewsMaker(
                       countries: "IN,US,UK,RU,CA,MX",
                       lang: lang,

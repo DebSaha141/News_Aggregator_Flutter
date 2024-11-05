@@ -88,7 +88,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    print("lang2 $lang");
     return Scaffold(
       // backgroundColor: Color.fromARGB(255, 5, 5, 5),
       backgroundColor: Color(0xFF18171c),
@@ -153,7 +152,7 @@ class _HomeState extends State<Home> {
             ),
             FutureBuilder(
                 future: _getPrefs(),
-                builder: (context, snapshot) {
+                builder: (context, AsyncSnapshot snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Container(
                         height: 300,
@@ -161,10 +160,9 @@ class _HomeState extends State<Home> {
                   } else if (snapshot.data != null ||
                       snapshot.data != "" ||
                       lang != "") {
-                    if (lang==null) {
+                    if (lang == null) {
                       lang = "en";
                     }
-                    print("lang3 $lang");
                     return Carousel(language: lang);
                   } else {
                     return Text("Error");
