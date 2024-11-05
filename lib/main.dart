@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_config/flutter_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark/components/appdrawer.dart';
 import 'package:spark/components/carouselSlider.dart';
 import 'package:spark/components/footer.dart';
@@ -54,16 +55,40 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late Future<List<newsFactory>> futureNews;
   List<CategoryModel> categories = [];
+  String? lang = "";
+
+  SharedPreferences? _prefs;
+
+  void _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    lang = await _prefs?.getString('lang');
+    if (lang == null) {
+      _setPrefs("lang", "en");
+      print("Successfully set language to English");
+      lang = "en";
+    }
+  }
+
+  void _setPrefs(String key, String value) {
+    _prefs?.setString(key, value);
+  }
+
+  Future<String> _getPrefs() async {
+    lang = await _prefs?.getString('lang');
+    return lang!;
+  }
 
   @override
   void initState() {
     super.initState();
     categories = getCategories();
+    _initPrefs();
     // futureNews = UserServices().getNews();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("lang2 $lang");
     return Scaffold(
       // backgroundColor: Color.fromARGB(255, 5, 5, 5),
       backgroundColor: Color(0xFF18171c),
@@ -122,10 +147,29 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                     fontFamily: "Inter",
                     fontWeight: FontWeight.bold,
+                    fontSize: 15,
                     color: Colors.grey),
               )),
             ),
-            Carousel(),
+            FutureBuilder(
+                future: _getPrefs(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                        height: 300,
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.data != null ||
+                      snapshot.data != "" ||
+                      lang != "") {
+                    if (lang==null) {
+                      lang = "en";
+                    }
+                    print("lang3 $lang");
+                    return Carousel(language: lang);
+                  } else {
+                    return Text("Error");
+                  }
+                }),
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 3),
               child: Center(
@@ -134,11 +178,12 @@ class _HomeState extends State<Home> {
                 style: TextStyle(
                     fontFamily: "Inter",
                     fontWeight: FontWeight.bold,
+                    fontSize: 15,
                     color: Colors.grey),
               )),
             ),
             FutureBuilder(
-              future: Future.delayed(Duration(seconds: 2)),
+              future: Future.delayed(Duration(seconds: 5)),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Container(
@@ -147,7 +192,7 @@ class _HomeState extends State<Home> {
                 } else {
                   return NewsMaker(
                     countries: "IN,US,UK,RU,CA,MX",
-                    lang: "en",
+                    lang: lang,
                     page_size: "50",
                     time: "24h",
                   );

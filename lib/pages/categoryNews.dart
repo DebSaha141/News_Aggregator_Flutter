@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spark/components/footer.dart';
 import 'package:spark/components/navbar.dart';
 import 'package:spark/components/newsMaker.dart';
@@ -9,7 +10,8 @@ class CategoryNews extends StatefulWidget {
   final String? query;
   final String? endpoint;
   final String? time;
-  const CategoryNews({Key? key, this.topic, this.query, this.endpoint,this.time})
+  const CategoryNews(
+      {Key? key, this.topic, this.query, this.endpoint, this.time})
       : super(key: key);
 
   @override
@@ -18,6 +20,26 @@ class CategoryNews extends StatefulWidget {
 
 class _CategoryNewsState extends State<CategoryNews> {
   late Future<List<newsFactory>> futureNews;
+  String? lang;
+
+  SharedPreferences? _prefs;
+
+  void _initPrefs() async {
+    _prefs = await SharedPreferences.getInstance();
+    _getPrefs();
+  }
+
+  Future<String> _getPrefs() async {
+    lang = await _prefs?.getString('lang');
+    return lang!;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initPrefs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,15 +60,30 @@ class _CategoryNewsState extends State<CategoryNews> {
                     fontSize: 16),
               ),
             ),
-            NewsMaker(
-              countries: "IN,US,UK,RU,CA,MX",
-              lang: "en",
-              page_size: "50",
-              topic: widget.topic,
-              time: widget.time,
-              query: widget.query,
-              endpoint: widget.endpoint,
-            ),
+            FutureBuilder(
+                future: _getPrefs(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                        height: 300,
+                        child: Center(child: CircularProgressIndicator()));
+                  } else if (snapshot.data != null ||
+                      snapshot.data != "" ||
+                      lang != "") {
+                    print("lang3 $lang");
+                    return NewsMaker(
+                      countries: "IN,US,UK,RU,CA,MX",
+                      lang: lang,
+                      page_size: "50",
+                      topic: widget.topic,
+                      time: widget.time,
+                      query: widget.query,
+                      endpoint: widget.endpoint,
+                    );
+                  } else {
+                    return Text("Error");
+                  }
+                }),
             SizedBox(
               height: 20,
             ),
