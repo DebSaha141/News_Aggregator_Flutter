@@ -8,7 +8,7 @@ Spark is a modern, sleek news aggregator application built with Flutter, designe
 ## 📸 Screenshots and Architecture
 
 <div align="center">
-  <img src="https://res.cloudinary.com/dzabseimd/image/upload/v1748188729/657shots_so_w7hrku.png" width=auto alt="Feature Screen"/>
+  <img src="https://res.cloudinary.com/dzabseimd/image/upload/v1748188729/657shots_so_w7hrku.png" width="600" alt="Feature Screen"/>
 </div>
 
 ## 🎥 Demo Video
