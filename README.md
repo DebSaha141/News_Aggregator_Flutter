@@ -1,8 +1,31 @@
 # Spark⚡ - Your Ultimate News Aggregator App 📰💥
 
+
 ## Overview
 
 Spark is a modern, sleek news aggregator application built with Flutter, designed to provide users with a seamless and informative news reading experience. Leveraging the power of the NewsCatcher API, Spark brings you the latest news from around the globe at your fingertips.
+
+## 📸 Screenshots and Architecture
+
+<div align="center">
+  <img src="https://res.cloudinary.com/dzabseimd/image/upload/v1748188728/Mobile_App_Screen_Mockup_Mosaic_1_baavki.png" width="300" alt="Home Screen"/>
+  <img src="https://res.cloudinary.com/dzabseimd/image/upload/v1748188729/657shots_so_w7hrku.png" width="300" alt="Feature Screen"/>
+</div>
+
+</br>
+
+<div align="center">
+  <img src="https://res.cloudinary.com/dzabseimd/image/upload/v1748188728/napkin-selection_p2oplo.png" width="300" alt="Profile Screen"/>
+</div>
+
+## 🎥 Demo Video
+
+[![App Demo Video](https://res.cloudinary.com/dzabseimd/image/upload/v1748189226/23739728_sl_012120_27300_18_ngqdmt.jpg)](https://player.cloudinary.com/embed/?cloud_name=dzabseimd&public_id=Record_2024-11-07-00-42-44_snrj5w&profile=cld-looping)
+
+*Click the image above to watch the demo video*
+
+**Alternative video hosting options:**
+- **Cloudinary Link:** [Demo Video](https://player.cloudinary.com/embed/?cloud_name=dzabseimd&public_id=Record_2024-11-07-00-42-44_snrj5w&profile=cld-looping)
 
 ## 🌟 Features
 
